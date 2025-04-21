@@ -11,7 +11,6 @@ PROTO_FILES := $(shell find proto -name '*.proto')
 
 help:
 	@echo "gen - regenerate proto files"
-	@echo "gen-gateway - regenerate gateway files"
 	@echo "bump - push proto files with auto incrementing release version"
 	@echo "list - list all .proto files in this repository"
 
@@ -24,12 +23,8 @@ gen:
 	export GOPATH=$HOME/go
 	export PATH=$PATH:$GOPATH/bin
 	protoc --go_out=gen/go --go-grpc_out=gen/go   --go_opt=paths=source_relative   --go-grpc_opt=paths=source_relative $(PROTO_FILES)
-
-gen-gateway:
-	@echo "Recompiling proto files..."
-	export GOPATH=$HOME/go
-	export PATH=$PATH:$GOPATH/bin
 	protoc --grpc-gateway_out=gen/go --grpc-gateway_opt=paths=source_relative   --grpc-gateway_opt=generate_unbound_methods=true $(PROTO_FILES)
+
 # Авто инкремент версии с отправкой в репозиторий
 bump:
 	@echo "Current version: $(CURRENT_TAG)"
